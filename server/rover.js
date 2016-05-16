@@ -132,8 +132,10 @@ const execCommands = plateauState => roverState => str => {
   }, Object.assign({}, roverState));
 };
 
-exports.land = land;
-exports.launch = launch;
-exports.scan = scan;
-exports.outputPosition = outputPosition;
-exports.execCommands = execCommands;
+Object.assign(exports, {
+  land,
+  launch,
+  scan,
+  outputPosition,
+  execCommands
+});
