@@ -1,0 +1,42 @@
+{
+  "name": "mars-rover",
+  "version": "1.0.0",
+  "description": "Move a rover around the landing grid to explore the surface of Mars.",
+  "main": "build/index.html",
+  "directories": {
+    "doc": "docs",
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "gulp test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/robmclarty/mars-rover.git"
+  },
+  "keywords": [
+    "javascript",
+    "react",
+    "redux",
+    "node",
+    "express",
+    "api",
+    "gulp",
+    "sass"
+  ],
+  "author": "Rob McLarty <r@robmclarty.com> (robmclarty.com)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/robmclarty/mars-rover/issues"
+  },
+  "homepage": "https://github.com/robmclarty/mars-rover#readme",
+  "dependencies": {
+    "body-parser": "1.15.1",
+    "cors": "2.7.1",
+    "express": "4.13.4"
+  },
+  "devDependencies": {
+    "chai": "3.5.0",
+    "mocha": "2.4.5"
+  }
+}
