@@ -9,7 +9,7 @@
   },
   "scripts": {
     "test": "gulp test",
-    "rover": "node --harmony_destructuring server/rover.js"
+    "rover": "node --harmony_destructuring tests/index.js"
   },
   "repository": {
     "type": "git",

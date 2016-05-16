@@ -129,13 +129,11 @@ const execCommands = plateauState => roverState => str => {
     default: // ignore
       return accState;
     }
-  }, roverState);
+  }, Object.assign({}, roverState));
 };
 
-const commands = 'RMMMMMMMMM';
-let roverState = land('1 3 N');
-let plateauState = scan('10 10');
-let execRoverCommands = execCommands(plateauState)(roverState);
-roverState = execRoverCommands(commands);
-roverState = execRoverCommands('LMMMLMMMMMRM');
-console.log(outputPosition(roverState.x, roverState.y, roverState.dir));
+exports.land = land;
+exports.launch = launch;
+exports.scan = scan;
+exports.outputPosition = outputPosition;
+exports.execCommands = execCommands;
