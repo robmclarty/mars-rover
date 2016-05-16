@@ -4,7 +4,6 @@ const NORTH = 'N';
 const EAST = 'E';
 const SOUTH = 'S';
 const WEST = 'W';
-const ORBIT = 'O';
 const DIRECTIONS = [NORTH, EAST, SOUTH, WEST];
 
 const LEFT = 'L';
@@ -19,13 +18,15 @@ const land = str => {
   const landingPos = str.split(' ');
 
   return {
-    x: landingPos[0],
-    y: landingPos[1],
-    dir: DIRECTIONS.indexOf(landingPos[2]),
+    x: Number(landingPos[0]),
+    y: Number(landingPos[1]),
+    dir: Number(DIRECTIONS.indexOf(landingPos[2])),
     inOrbit: false
   };
 };
 
+// When the rover takes off from the planet surface, reset all its values and
+// set inOrbit to true.
 const launch = () => {
   return {
     x: 0,
@@ -35,30 +36,43 @@ const launch = () => {
   };
 };
 
-const setPlateauSize = (maxx, maxy) => {
+// Scan the surface of the planet for a landing area and return the size of the
+// zone within which the rover may safely operate its mission.
+// Return an object with maxx and maxy values matching the arguments.
+const scan = str => {
+  const size = str.split(' ');
+
   return {
-    maxx,
-    maxy
+    maxx: Number(size[0]),
+    maxy: Number(size[1])
   };
 };
 
+// Ping the rover for it's current position.
 // Return a string representing the rover's current position as "x y direction".
 const outputPosition = (x, y, dirIndex) => {
   return `${ x } ${ y } ${ DIRECTIONS[dirIndex] }`;
 };
 
+// Given a direction index, move one cardinal direction to the left (or wrap
+// back around to the last direction if at the beginning).
 const turnLeft = dirIndex => {
   return dirIndex - 1 < 0 ?
     DIRECTIONS.length - 1 :
     dirIndex - 1;
 };
 
+// Given a direction index, move one cardinal direction to the right (or wrap
+// back around to the first direction if at the end).
 const turnRight = dirIndex => {
   return dirIndex + 1 >= DIRECTIONS.length - 1 ?
     0 :
     dirIndex + 1;
 };
 
+// Move in a cardinal direction but stay within the bounds of plateauState.
+// If a movement puts the coordinates outside the bounds, then remain in the
+// current valid position without moving.
 const moveWithin = plateauState => (x, y, dirIndex) => {
   const { maxx, maxy } = plateauState;
 
@@ -66,7 +80,7 @@ const moveWithin = plateauState => (x, y, dirIndex) => {
   case NORTH:
     return {
       x,
-      y: y + 1 > maxxy ? y : y + 1
+      y: y + 1 > maxy ? y : y + 1
     };
   case EAST:
     return {
@@ -84,10 +98,7 @@ const moveWithin = plateauState => (x, y, dirIndex) => {
       y
     };
   default:
-    return {
-      x,
-      y
-    };
+    return { x, y };
   }
 };
 
@@ -96,36 +107,36 @@ const moveWithin = plateauState => (x, y, dirIndex) => {
 const execCommands = plateauState => roverState => str => {
   const move = moveWithin(plateauState);
 
-  return str.split().reduce((accState, char) => {
+  return str.split('').reduce((accState, char) => {
     const { x, y, dir } = accState;
 
     switch (char) {
     case LEFT:
-      return {
-        ...accState,
-        dir: turnLeft(dir)
-      };
+      return Object.assign(
+        accState,
+        { dir: turnLeft(dir) }
+      );
     case RIGHT:
-      return {
-        ...accState,
-        dir: turnRight(dir)
-      };
+      return Object.assign(
+        accState,
+        { dir: turnRight(dir) }
+      );
     case MOVE:
-      return {
-        ...accState,
-        ...move(x, y, dir)
-      };
+      return Object.assign(
+        accState,
+        move(x, y, dir)
+      );
     default: // ignore
       return accState;
     }
-  }, state);
+  }, roverState);
 };
 
-//const commands = 'LMLMLMLMLMM';
-//const roverState = launch();
-//const plateauState = setPlateauSize(10, 10);
-//const execCommandsFor = execCommands(plateauState);
-//const execRoverCommands = execCommandsFor(roverState);
-//roverState = execRoverCommands(commands);
-//execRoverCommands = execCommandsFor(roverState);
-//console.log(outputPosition(roverState.x, roverState.y, roverState.dir));
+const commands = 'RMMMMMMMMM';
+let roverState = land('1 3 N');
+let plateauState = scan('10 10');
+const updateCommandState = execCommands(plateauState);
+let execRoverCommands = updateCommandState(roverState);
+roverState = execRoverCommands(commands);
+execRoverCommands = updateCommandState(roverState);
+console.log(outputPosition(roverState.x, roverState.y, roverState.dir));
