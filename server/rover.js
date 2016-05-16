@@ -135,8 +135,7 @@ const execCommands = plateauState => roverState => str => {
 const commands = 'RMMMMMMMMM';
 let roverState = land('1 3 N');
 let plateauState = scan('10 10');
-const updateCommandState = execCommands(plateauState);
-let execRoverCommands = updateCommandState(roverState);
+let execRoverCommands = execCommands(plateauState)(roverState);
 roverState = execRoverCommands(commands);
-execRoverCommands = updateCommandState(roverState);
+roverState = execRoverCommands('LMMMLMMMMMRM');
 console.log(outputPosition(roverState.x, roverState.y, roverState.dir));
