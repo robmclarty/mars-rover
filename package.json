@@ -8,7 +8,7 @@
     "test": "tests"
   },
   "scripts": {
-    "test": "gulp test",
+    "test": "./node_modules/mocha/bin/mocha --harmony_destructuring --timeout 5000 --recursive ./tests",
     "rover": "node --harmony_destructuring tests/index.js"
   },
   "repository": {
