@@ -9,7 +9,7 @@
   },
   "scripts": {
     "test": "./node_modules/mocha/bin/mocha --harmony_destructuring --timeout 5000 --recursive ./tests",
-    "rover": "node --harmony_destructuring tests/index.js"
+    "app": "node --harmony_destructuring app/app.js"
   },
   "repository": {
     "type": "git",
@@ -34,7 +34,8 @@
   "dependencies": {
     "body-parser": "1.15.1",
     "cors": "2.7.1",
-    "express": "4.13.4"
+    "express": "4.13.4",
+    "prompt": "1.0.0"
   },
   "devDependencies": {
     "chai": "3.5.0",

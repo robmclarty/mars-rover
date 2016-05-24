@@ -4,22 +4,22 @@ const { expect } = require('chai');
 const {
   land,
   scan,
-  sendCommands,
+  instruct,
   NORTH,
   EAST,
   SOUTH,
   WEST
 } = require('../server/rover');
 
-describe('Commands', () => {
+describe('Instructions', () => {
   const plateauState = scan('10 10');
   const landOnPlateau = land(plateauState);
-  const plateauCommands = sendCommands(plateauState);
+  const plateauInstructions = instruct(plateauState);
 
   it('should accept multiple commands', () => {
     const landingState = landOnPlateau('5 5 N');
-    const sendRoverCommands = plateauCommands(landingState);
-    const roverState = sendRoverCommands('RMMMRRMMMLMMM');
+    const instructRover = plateauInstructions(landingState);
+    const roverState = instructRover('RMMMRRMMMLMMM');
 
     expect(roverState).to.be.an('object');
     expect(roverState.x).to.equal(5);
@@ -29,8 +29,8 @@ describe('Commands', () => {
 
   it('should ignore invalid commands', () => {
     const landingState = landOnPlateau('5 5 N');
-    const sendRoverCommands = plateauCommands(landingState);
-    const roverState = sendRoverCommands('RMM*FM RR#MM-+ MLM $MM');
+    const instructRover = plateauInstructions(landingState);
+    const roverState = instructRover('RMM*FM RR#MM-+ MLM $MM');
 
     expect(roverState).to.be.an('object');
     expect(roverState.x).to.equal(5);
@@ -40,8 +40,8 @@ describe('Commands', () => {
 
   it('should remain in position if issued no commands', () => {
     const landingState = landOnPlateau('5 5 N');
-    const sendRoverCommands = plateauCommands(landingState);
-    const roverState = sendRoverCommands('');
+    const instructRover = plateauInstructions(landingState);
+    const roverState = instructRover('');
 
     expect(roverState).to.be.an('object');
     expect(roverState.x).to.equal(5);

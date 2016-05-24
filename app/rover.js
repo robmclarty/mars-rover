@@ -65,8 +65,9 @@ const land = ({ maxx, maxy }) => str => {
 
 // When the rover takes off from the planet surface, reset all its values and
 // set inOrbit to true.
-const launch = () => {
+const launch = name => {
   return {
+    name,
     x: 0,
     y: 0,
     dir: NORTH,
@@ -76,8 +77,8 @@ const launch = () => {
 
 // Ping the rover for it's current position.
 // Return a string representing the rover's current position as "x y direction".
-const getPosition = ({x = '?', y = '?', dir = '-' }) => {
-  return `${ x } ${ y } ${ DIRECTIONS[dir] || '?' }`;
+const getPosition = ({x = '?', y = '?', dir = '?' }) => {
+  return `${ x } ${ y } ${ dir }`;
 };
 
 // Given a direction, move one cardinal direction to the left (or wrap
@@ -105,7 +106,7 @@ const turnRight = dir => {
 // Move in a cardinal direction but stay within the bounds of the plateau (the
 // first function's param). If a movement puts the coordinates outside the
 // bounds, then remain in the current valid position without moving.
-const moveWithin = ({ maxx, maxy }) => ({x, y, dir}) => {
+const move = ({ maxx, maxy }) => ({x, y, dir}) => {
   switch (dir) {
   case NORTH:
     return {
@@ -133,9 +134,9 @@ const moveWithin = ({ maxx, maxy }) => ({x, y, dir}) => {
 };
 
 // Take an input string and execute any legitimate commands, ignoring any that
-// are not valid, returning the resultant rover position.
-const sendCommands = plateauState => roverState => str => {
-  const move = moveWithin(plateauState);
+// are not valid, returning the resultant rover state.
+const instruct = plateauState => roverState => str => {
+  const moveRover = move(plateauState);
 
   return str.split('').reduce((prevState, char) => {
     switch (char) {
@@ -152,7 +153,7 @@ const sendCommands = plateauState => roverState => str => {
     case MOVE:
       return Object.assign(
         prevState,
-        move(prevState)
+        moveRover(prevState)
       );
     default: // ignore
       return prevState;
@@ -166,9 +167,9 @@ Object.assign(exports, {
   scan,
   turnLeft,
   turnRight,
-  moveWithin,
+  move,
   getPosition,
-  sendCommands,
+  instruct,
   NORTH,
   EAST,
   SOUTH,
