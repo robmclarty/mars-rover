@@ -23,7 +23,7 @@ const LAUNCH = 'launch';
 const INSTRUCTIONS = 'instructions';
 
 const rovers = [];
-const plateau = {};
+const plateau = { maxx: 0, maxy: 0 };
 
 prompt.start();
 
@@ -64,7 +64,15 @@ const processInput = str => {
 
   // e.g., "launch rover1"
   if (subject === LAUNCH) {
-    rovers.push(launch(input[1]));
+    const i = rovers.findIndex(rover => rover.name === input[1]);
+
+    // If there is an existing rover with that name, update it's state,
+    // otherwise launch a new rover into space.
+    if (i >= 0) {
+      rovers[i] = launch(input[1]);
+    } else {
+      rovers.push(launch(input[1]));
+    }
 
     return `Launched new rover "${ input[1] }"\n`;
   }
