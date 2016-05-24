@@ -1,7 +1,7 @@
 'use strict';
 
 const { expect } = require('chai');
-const { getPosition, EAST, DIRECTIONS } = require('../app/rover');
+const { getPosition, EAST, SOUTH } = require('../app/rover');
 
 describe('Position', () => {
   it('should return a string position as `X Y DIR`', () => {
@@ -22,8 +22,8 @@ describe('Position', () => {
     expect(position).to.equal('? ? ?');
     expect(getPosition({ x: 5 })).to.equal('5 ? ?');
     expect(getPosition({ x: 5, y: 10 })).to.equal('5 10 ?');
-    expect(getPosition({ dir: 'S' })).to.equal('? ? S');
-    expect(getPosition({ y: 5, dir: 'E' })).to.equal('? 5 E');
+    expect(getPosition({ dir: SOUTH })).to.equal('? ? S');
+    expect(getPosition({ y: 5, dir: EAST })).to.equal('? 5 E');
     expect(getPosition({ y: 6 })).to.equal('? 6 ?');
   });
 });
