@@ -1,7 +1,7 @@
 'use strict';
 
 const { expect } = require('chai');
-const { scan } = require('../server/rover');
+const { scan } = require('../app/rover');
 
 describe('Scan', () => {
   it('should return an object with properties maxx and maxy which correspond to input', () => {

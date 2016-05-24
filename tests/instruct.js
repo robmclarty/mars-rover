@@ -9,7 +9,7 @@ const {
   EAST,
   SOUTH,
   WEST
-} = require('../server/rover');
+} = require('../app/rover');
 
 describe('Instructions', () => {
   const plateauState = scan('10 10');

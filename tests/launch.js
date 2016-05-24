@@ -1,7 +1,7 @@
 'use strict';
 
 const { expect } = require('chai');
-const { launch, NORTH } = require('../server/rover');
+const { launch, NORTH } = require('../app/rover');
 
 describe('Launch', () => {
   const state = launch();

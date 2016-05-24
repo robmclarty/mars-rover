@@ -8,7 +8,7 @@ const {
   SOUTH,
   WEST,
   NORTH
-} = require('../server/rover');
+} = require('../app/rover');
 
 describe('Turn', () => {
   it('should point W if turning left from N', () => {
