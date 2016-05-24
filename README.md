@@ -22,8 +22,7 @@ folder.
 
 `npm run app`
 
-There are 3 main commands that can be executed, and 2 subcommands for individual
-rovers.
+There are multiple commands which can be issued to control your rover fleet.
 
 ### scan
 
